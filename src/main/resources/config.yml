@@ -1,4 +1,4 @@
-debug: true
+debug: false
 items:
   # Food items
   suspicious_stew: 32
