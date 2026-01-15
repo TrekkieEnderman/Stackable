@@ -11,6 +11,7 @@ import org.bukkit.event.block.CrafterCraftEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.inventory.*;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 
 /**
@@ -71,6 +72,43 @@ public class StackableListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInventoryCreative(InventoryCreativeEvent e) {
         stackSizeManager.applyCustomStackSize(e.getCurrentItem());
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onBucketFill(final PlayerBucketFillEvent e) {
+        stackSizeManager.applyCustomStackSize(e.getItemStack());
+        // Get rid of the ghost bucket caused by client desync
+        scheduler.runTaskAtEntity(e.getPlayer(), () -> e.getPlayer().updateInventory());
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onBucketEmpty(final PlayerBucketEmptyEvent e) {
+        stackSizeManager.applyCustomStackSize(e.getItemStack());
+        // Get rid of the ghost bucket caused by client desync
+        scheduler.runTaskAtEntity(e.getPlayer(), () -> e.getPlayer().updateInventory());
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onBucketEntity(PlayerBucketEntityEvent e) {
+        stackSizeManager.applyCustomStackSize(e.getEntityBucket());
+        // Get rid of the ghost bucket caused by client desync
+        scheduler.runTaskAtEntity(e.getPlayer(), () -> e.getPlayer().updateInventory());
+    }
+
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onArrowPickup(final PlayerPickupArrowEvent e) {
+        stackSizeManager.applyCustomStackSize(e.getArrow().getItemStack());
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onItemConsume(final PlayerItemConsumeEvent e) {
+        // Known issue - Does not work for milk bucket or soups because #getReplacement() only returns CUSTOM replacements.
+        if (e.getReplacement() != null) {
+            stackSizeManager.applyCustomStackSize(e.getReplacement());
+            // Get rid of the ghost bucket caused by client desync
+            scheduler.runTaskAtEntity(e.getPlayer(), () -> e.getPlayer().updateInventory());
+        }
     }
     
     /**
