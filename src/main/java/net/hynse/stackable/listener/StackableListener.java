@@ -25,22 +25,22 @@ public class StackableListener implements Listener {
         this.stackSizeManager = stackSizeManager;
         this.scheduler = scheduler;
     }
-    
-    @EventHandler(priority = EventPriority.LOWEST)
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInventoryClick(InventoryClickEvent e) {
         scheduler.runTaskAtEntity(e.getWhoClicked(), () ->
             stackSizeManager.applyCustomStackSize(e.getCurrentItem())
         );
     }
-    
-    @EventHandler(priority = EventPriority.LOWEST)
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityPickup(EntityPickupItemEvent e) {
         scheduler.runTaskAtEntity(e.getEntity(), () ->
             stackSizeManager.applyCustomStackSize(e.getItem().getItemStack())
         );
     }
-    
-    @EventHandler(priority = EventPriority.LOWEST)
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInventoryMove(InventoryMoveItemEvent e) {
         Location location = e.getDestination().getLocation();
         if (location != null) {
@@ -49,44 +49,44 @@ public class StackableListener implements Listener {
             );
         }
     }
-    
-    @EventHandler(priority = EventPriority.LOWEST)
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockDispense(BlockDispenseEvent e) {
         scheduler.runTaskAtLocation(e.getBlock().getLocation(), () ->
             stackSizeManager.applyCustomStackSize(e.getItem())
         );
     }
-    
-    @EventHandler(priority = EventPriority.LOWEST)
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onItemSpawn(ItemSpawnEvent e) {
         scheduler.runTaskAtEntity(e.getEntity(), () -> {
             ItemStack item = e.getEntity().getItemStack();
             stackSizeManager.applyCustomStackSize(item);
         });
     }
-    
-    @EventHandler(priority = EventPriority.LOWEST)
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPrepareCrafter(CrafterCraftEvent e) {
         scheduler.runTaskAtLocation(e.getBlock().getLocation(), () ->
             stackSizeManager.applyCustomStackSize(e.getResult())
         );
     }
-    
-    @EventHandler(priority = EventPriority.LOWEST)
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onFurnaceSmelt(FurnaceSmeltEvent e) {
         scheduler.runTaskAtLocation(e.getBlock().getLocation(), () ->
             stackSizeManager.applyCustomStackSize(e.getResult())
         );
     }
-    
-    @EventHandler(priority = EventPriority.LOWEST)
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInventoryPickupItem(InventoryPickupItemEvent e) {
         scheduler.runTaskAtLocation(e.getItem().getLocation(), () ->
             stackSizeManager.applyCustomStackSize(e.getItem().getItemStack())
         );
     }
-    
-    @EventHandler(priority = EventPriority.LOWEST)
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInventoryCreative(InventoryCreativeEvent e) {
         scheduler.runTaskAtEntity(e.getWhoClicked(), () ->
             stackSizeManager.applyCustomStackSize(e.getCurrentItem())
