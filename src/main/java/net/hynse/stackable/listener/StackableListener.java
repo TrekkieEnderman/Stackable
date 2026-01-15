@@ -12,7 +12,6 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 /**
  * Handles all events related to stackable items
@@ -28,69 +27,50 @@ public class StackableListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInventoryClick(InventoryClickEvent e) {
-        scheduler.runTaskAtEntity(e.getWhoClicked(), () ->
-            stackSizeManager.applyCustomStackSize(e.getCurrentItem())
-        );
+        stackSizeManager.applyCustomStackSize(e.getCurrentItem());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityPickup(EntityPickupItemEvent e) {
-        scheduler.runTaskAtEntity(e.getEntity(), () ->
-            stackSizeManager.applyCustomStackSize(e.getItem().getItemStack())
-        );
+        stackSizeManager.applyCustomStackSize(e.getItem().getItemStack());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInventoryMove(InventoryMoveItemEvent e) {
         Location location = e.getDestination().getLocation();
         if (location != null) {
-            scheduler.runTaskAtLocation(location, () ->
-                stackSizeManager.applyCustomStackSize(e.getItem())
-            );
+            stackSizeManager.applyCustomStackSize(e.getItem());
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockDispense(BlockDispenseEvent e) {
-        scheduler.runTaskAtLocation(e.getBlock().getLocation(), () ->
-            stackSizeManager.applyCustomStackSize(e.getItem())
-        );
+        stackSizeManager.applyCustomStackSize(e.getItem());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onItemSpawn(ItemSpawnEvent e) {
-        scheduler.runTaskAtEntity(e.getEntity(), () -> {
-            ItemStack item = e.getEntity().getItemStack();
-            stackSizeManager.applyCustomStackSize(item);
-        });
+        stackSizeManager.applyCustomStackSize(e.getEntity().getItemStack());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onPrepareCrafter(CrafterCraftEvent e) {
-        scheduler.runTaskAtLocation(e.getBlock().getLocation(), () ->
-            stackSizeManager.applyCustomStackSize(e.getResult())
-        );
+        stackSizeManager.applyCustomStackSize(e.getResult());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onFurnaceSmelt(FurnaceSmeltEvent e) {
-        scheduler.runTaskAtLocation(e.getBlock().getLocation(), () ->
-            stackSizeManager.applyCustomStackSize(e.getResult())
-        );
+        stackSizeManager.applyCustomStackSize(e.getResult());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInventoryPickupItem(InventoryPickupItemEvent e) {
-        scheduler.runTaskAtLocation(e.getItem().getLocation(), () ->
-            stackSizeManager.applyCustomStackSize(e.getItem().getItemStack())
-        );
+        stackSizeManager.applyCustomStackSize(e.getItem().getItemStack());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInventoryCreative(InventoryCreativeEvent e) {
-        scheduler.runTaskAtEntity(e.getWhoClicked(), () ->
-            stackSizeManager.applyCustomStackSize(e.getCurrentItem())
-        );
+        stackSizeManager.applyCustomStackSize(e.getCurrentItem());
     }
     
     /**
