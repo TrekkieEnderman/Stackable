@@ -5,8 +5,11 @@ import me.nahu.scheduler.wrapper.WrappedSchedulerBuilder;
 import net.hynse.stackable.command.ReloadCommand;
 import net.hynse.stackable.command.TestRegexCommand;
 import net.hynse.stackable.config.ConfigManager;
+import net.hynse.stackable.listener.PlayerListener;
+import net.hynse.stackable.listener.FurnaceListener;
 import net.hynse.stackable.listener.StackableListener;
 import net.hynse.stackable.manager.StackSizeManager;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -27,9 +30,11 @@ public class Stackable extends JavaPlugin {
         StackSizeManager stackSizeManager = new StackSizeManager(configManager);
         configManager.loadConfig();
         Stackable.instance.saveDefaultConfig();
-        
-        StackableListener eventListener = new StackableListener(stackSizeManager, scheduler);
-        getServer().getPluginManager().registerEvents(eventListener, this);
+
+        PluginManager pluginManager = getServer().getPluginManager();
+        pluginManager.registerEvents(new StackableListener(stackSizeManager, scheduler), this);
+        pluginManager.registerEvents(new FurnaceListener(stackSizeManager), this);
+        pluginManager.registerEvents(new PlayerListener(stackSizeManager, scheduler), this);
         
         Objects.requireNonNull(getCommand("stackablereload")).setExecutor(new ReloadCommand(configManager));
         
