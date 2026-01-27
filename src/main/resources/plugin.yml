@@ -3,6 +3,9 @@ version: '${version}'
 main: net.hynse.stackable.Stackable
 api-version: '1.21'
 folia-supported: true
+website: https://github.com/TrekkieEnderman/Stackable
+description: A fork of the original Stackable by MidnightTale, made to be permission-based.
+authors: [MidnightTale, TrekkieEndermom]
 commands:
   stackablereload:
     description: Reloads the Stackable plugin configuration
