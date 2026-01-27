@@ -12,3 +12,13 @@ commands:
     description: Test regex patterns against material names
     usage: /stackabletest <pattern> [material]
     permission: stackable.admin
+permissions:
+  stackable.admin:
+    default: op
+  stackable.reload:
+    default: op
+    children:
+      stackable.admin: true
+  stackable.enable:
+    default: false
+    description: "Allows usage of customized stack sizes"
