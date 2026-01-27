@@ -37,7 +37,7 @@ public class PlayerListener implements Listener {
             this.scheduler.runTaskAtLocation(e.getBlock().getLocation(), () -> {
                 state.update(true);
                 ItemStack emptyBucket = ItemStack.of(Material.BUCKET, 1);
-                this.stackSizeManager.applyCustomStackSize(emptyBucket);
+                stackSizeManager.applyCustomStackSize(emptyBucket, player);
                 itemInHand.subtract();
                 player.give(emptyBucket);
             });

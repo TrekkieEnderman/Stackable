@@ -28,11 +28,10 @@ public class FurnaceListener implements Listener {
         if (fuel.getType() == Material.LAVA_BUCKET && fuel.getAmount() > 1) {
             // Eject an empty bucket
             ItemStack bucket = ItemStack.of(Material.BUCKET, 1);
-            this.stackSizeManager.applyCustomStackSize(bucket);
             boolean bucketMoved = false;
             if (e.getBlock().getRelative(BlockFace.DOWN).getState() instanceof Hopper hopper) {
                 Inventory hopperInventory = hopper.getInventory();
-                bucketMoved = hopperInventory.addItem(new ItemStack[]{bucket}).isEmpty();
+                bucketMoved = hopperInventory.addItem(bucket).isEmpty();
             }
             if (!bucketMoved) {
                 e.getBlock().getWorld().dropItem(e.getBlock().getLocation(), bucket);
